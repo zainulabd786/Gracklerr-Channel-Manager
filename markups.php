@@ -79,11 +79,12 @@ function gc_get_channel_options_manage_categories_markup()
         <form action="admin-post.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="action" value="gc_add_category">
             <?php wp_nonce_field("gc_add_category_verify"); ?>
-            <input type="text" name="gc_category" placeholder="Add Category" />
+            <input type="text" name="gc_category" placeholder="Add Category" id="gc_category_input" />
+            <input type="hidden" name="gc_old_category" id="gc_old_category_input" />
             <button type="submit" class="button button-primary button-large">Add</button>
         </form>
     </div>
-    <table>
+    <table id="gc_admin_table">
         <thead>
             <tr>
                 <th>Category</th>
@@ -92,14 +93,15 @@ function gc_get_channel_options_manage_categories_markup()
         </thead>
         <tbody>
             <?php
-            foreach ($saved_categories as $cat) { ?>
+            foreach ($saved_categories as $cat) {
+                gc_get_category_index($cat[CATEGORY_NAME_KEY]); ?>
                 <tr>
                     <td>
                         <?= $cat[CATEGORY_NAME_KEY] ?>
                     </td>
                     <td>
-                        <span class="dashicons dashicons-edit"></span>
-                        <span class="dashicons dashicons-trash"></span>
+                        <span data-category="<?= $cat[CATEGORY_NAME_KEY] ?>" class="dashicons dashicons-edit gc_category_action_icon gc_edit_category_icon"></span>
+                        <span data-category="<?= $cat[CATEGORY_NAME_KEY] ?>" class="dashicons dashicons-trash gc_category_action_icon dc_delete_category_icon"></span>
                     </td>
                 </tr>
             <?php
