@@ -12,4 +12,17 @@ jQuery(document).ready(function ($) {
     categoryInput.val(clickedCategoryName);
     oldCategoryInput.val(clickedCategoryName);
   });
+
+  categoryDeleteIcon.click((e) => {
+    const clickedCategoryName = e.target.getAttribute("data-category");
+    console.log("clickedCategoryName", clickedCategoryName);
+    $.post(
+      ajaxurl,
+      {
+        action: "gc_delete_category",
+        category: clickedCategoryName,
+      },
+      () => location.reload()
+    );
+  });
 });

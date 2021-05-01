@@ -101,7 +101,7 @@ function gc_get_channel_options_manage_categories_markup()
                     </td>
                     <td>
                         <span data-category="<?= $cat[CATEGORY_NAME_KEY] ?>" class="dashicons dashicons-edit gc_category_action_icon gc_edit_category_icon"></span>
-                        <span data-category="<?= $cat[CATEGORY_NAME_KEY] ?>" class="dashicons dashicons-trash gc_category_action_icon dc_delete_category_icon"></span>
+                        <span data-category="<?= $cat[CATEGORY_NAME_KEY] ?>" class="dashicons dashicons-trash gc_category_action_icon gc_delete_category_icon"></span>
                     </td>
                 </tr>
             <?php

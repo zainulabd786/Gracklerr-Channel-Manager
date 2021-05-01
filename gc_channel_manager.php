@@ -83,17 +83,16 @@ function gc_add_category()
     wp_redirect(admin_url('admin.php?page=gc_channel_options&tab=manage_categories&status=' . $status));
 }
 
-add_action("wp_ajax_gc_update_category", "gc_update_category");
-function gc_update_category()
+add_action("wp_ajax_gc_delete_category", "gc_delete_category");
+function gc_delete_category()
 {
-    $old_value = $_POST['old_value'];
-    $new_value = $_POST['new_value'];
-    $saved_categories = gc_get_saved_categories();
-    $category_index = gc_get_category_index($old_value);
-    $updated_val = array(
-        CATEGORY_NAME_KEY => $new_value,
-        CATEGORY_IMAGE_KEY => ""
-    );
-    $prev_val = $saved_categories[$category_index];
-    update_site_meta(get_current_blog_id(), CATEGORIES_META_KEY, $updated_val, $prev_val);
+    $category = $_POST['category'];
+    $category_index = gc_get_category_index($category);
+    if ($category_index > -1) {
+        $saved_categories = gc_get_saved_categories();
+        $cat_to_delete = $saved_categories[$category_index];
+        delete_site_meta(get_current_blog_id(), CATEGORIES_META_KEY, $cat_to_delete);
+    }
 }
+
+
