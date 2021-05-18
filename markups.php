@@ -10,6 +10,7 @@ function gc_get_channel_options_default_markup()
         <input type="hidden" name="redirect_url" value="<?= admin_url('admin.php?page=gc_channel_options') ?>">
         <input type="hidden" name="is_updating" value="true">
         <input type="hidden" name="gc_current_blog_id" value="<?= get_current_blog_id() ?>">
+        <input type="hidden" name="<?= CHANNEL_NAME_KEY ?>" value="<?= get_blog_option(get_current_blog_id(), CHANNEL_NAME_KEY) ?>">
         <table class="form-table">
             <tbody>
                 <tr>
@@ -599,7 +600,7 @@ function gc_render_channel_markup()
 
         <div class="row">
             <div class="col-sm-12 px-0 py-1">
-                <p><?= "get_the_content()" ?></p>
+                <p><?= get_blog_option(get_current_blog_id(), SHORT_DESCRIPTION_KEY) ?></p>
             </div>
         </div>
     </div>
