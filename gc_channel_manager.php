@@ -47,6 +47,7 @@ function wp_enque_styles_n_scripts()
     if (in_array($post->ID, $pages_having_sc))
         wp_enqueue_style('bootstrap-css', "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css");
 
+    wp_enqueue_style('gc-font-awesome-css', 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
     wp_enqueue_style('gc_style_css', plugins_url('/styles.css', __FILE__));
 }
@@ -137,7 +138,6 @@ function gc_registration_form_submit()
         LAST_NAME_KEY,
         EMAIL_KEY,
         PASSWORD_KEY,
-        CHANNEL_NAME_KEY,
         "gc_current_blog_id",
         "is_updating"
     );
