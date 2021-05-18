@@ -20,11 +20,15 @@ include(plugin_dir_path(__FILE__) . 'constants.php');
 include(plugin_dir_path(__FILE__) . 'utils.php');
 include(plugin_dir_path(__FILE__) . 'markups.php');
 
-function wp_enque_styles_n_scripts()
+function wp_enque_admin_styles_n_scripts()
 {
+
+
     // Custom
-    wp_enqueue_style('gc_style_css', plugins_url('/style.css', __FILE__));
+    wp_enqueue_style('gc_style_css', plugins_url('/admin/style.css', __FILE__));
     wp_enqueue_script('gc_script_js', plugins_url('/script.js', __FILE__), array());
+
+
 
     wp_localize_script(
         'gc_script_js',
@@ -34,7 +38,19 @@ function wp_enque_styles_n_scripts()
         )
     );
 }
-add_action('admin_enqueue_scripts', 'wp_enque_styles_n_scripts');
+add_action('admin_enqueue_scripts', 'wp_enque_admin_styles_n_scripts');
+
+function wp_enque_styles_n_scripts()
+{
+    global $post;
+    $pages_having_sc = having_shortcode("[gcklr_channels_list]");
+    if (in_array($post->ID, $pages_having_sc))
+        wp_enqueue_style('bootstrap-css', "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css");
+
+
+    wp_enqueue_style('gc_style_css', plugins_url('/style.css', __FILE__));
+}
+add_action('wp_enqueue_scripts', 'wp_enque_styles_n_scripts');
 
 add_action('admin_menu', 'gc_menu');
 function gc_menu()
@@ -139,11 +155,17 @@ function gc_registration_form_submit()
                 "role" => "admin"
             ));
         }
+
         $options = array(
             'template' => TEMPLATE,
-            'stylesheet' => STYLESHEET
+            'stylesheet' => STYLESHEET,
+            'show_on_front' => 'page',
         );
         $site_id = wpmu_create_blog(DOMAIN, PATH . sanitize_title_with_dashes($channel_name),  $channel_name, $created_user_id, $options);
+        switch_to_blog($site_id);
+        $channel_page_id = gc_create_template_page($channel_name, sanitize_title_with_dashes($channel_name));
+        update_option('page_on_front', $channel_page_id);
+        restore_current_blog();
     }
     foreach ($keys_to_remove_on_update as $key) {
         unset($_POST[$key]);
@@ -196,8 +218,10 @@ function gc_render_registration_form($atts)
     return ob_get_clean();
 }
 
-function test()
+
+
+function gc_render_channel_template()
 {
-    echo get_current_blog_id();
+    return gc_render_channel_markup();
 }
-add_action('wp_head', "test");
+add_shortcode("gc_render_channel_template", "gc_render_channel_template");

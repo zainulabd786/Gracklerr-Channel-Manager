@@ -31,3 +31,29 @@ if (!function_exists('write_log')) {
         }
     }
 }
+
+function gc_create_template_page($channel_name, $channel_slug){
+    $page_id = wp_insert_post(array(
+        'post_title' => $channel_name,
+        'post_type' => 'page',
+        'post_name' => $channel_slug,
+        'post_status' => 'publish',
+        'post_content' => "[gc_render_channel_template]"
+    ));
+    return $page_id;
+}
+
+
+function having_shortcode($str)
+{
+    $query = new WP_Query("s='$str'");
+    $arr = array();
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $arr[] = get_the_ID();
+        }
+    }
+    wp_reset_query();
+    return $arr;
+}

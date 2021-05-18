@@ -283,7 +283,7 @@ function gc_get_channel_registration_form($order_id)
     <div class="container">
         <form action="<?= admin_url('admin-post.php') ?>" method="post" enctype="multipart/form-data">
             <input type="hidden" name="action" value="gc_registration_form_submit">
-            <input type="hidden" name="redirect_url" value="<?= get_home_url().'?' ?>">
+            <input type="hidden" name="redirect_url" value="<?= get_home_url() . '?' ?>">
             <?php wp_nonce_field("gc_registration_form_submit_verify"); ?>
             <h3>CREATE YOUR CHANNEL NOW</h3>
             <div class="row">
@@ -439,6 +439,169 @@ function gc_get_channel_registration_form($order_id)
             <button id="gcklr-reg-submit-btn" class="btn btn-primary">Build My channel</button>
 
         </form>
+    </div>
+<?php
+}
+
+
+
+function gc_render_channel_markup()
+{
+    $website =
+        get_blog_option(get_current_blog_id(), WEBSITE_KEY);
+    $facebook =
+        get_blog_option(get_current_blog_id(), FACEBOOK_KEY);
+    $instagram
+        = get_blog_option(get_current_blog_id(), INSTAGRAM_KEY);
+    $twitter =
+        get_blog_option(get_current_blog_id(), TWITTER_KEY);
+    $youtube =
+        get_blog_option(get_current_blog_id(), YOUTUBE_KEY);
+    $linkedin =
+        get_blog_option(get_current_blog_id(), LINKEDIN_KEY);
+    $snapchat =
+        get_blog_option(get_current_blog_id(), SNAPCHAT_KEY);
+    $tiktok =
+        get_blog_option(get_current_blog_id(), TIKTOK_KEY);
+?>
+    <div class="container">
+        <!-- Banner Image -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="banner-image">
+                    <img src="https://gracklerr.com/wp-content/uploads/2021/05/Other.jpg" />
+                </div>
+            </div>
+        </div><!-- row -->
+
+        <div class="row">
+            <div class="col-sm-5 position-relative">
+                <!-- Profile Image -->
+                <div class="profile_image position-absolute">
+                    <img src="https://gracklerr.com/wp-content/uploads/2021/03/Leonardo-DiCaprio.png" />
+                    <div class="name h2">
+                        <?= get_blog_option(get_current_blog_id(), CHANNEL_NAME_KEY) ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <?php if (!empty($categories)) { ?>
+                    <div class="text-right mb-2 mt-3">
+                        Category: <?= get_blog_option(get_current_blog_id(), CATEGORIES_INPUT_KEY) ?>
+                    </div><?php
+                        } ?>
+
+                <div class="d-flex justify-content-end align-items-center my-2">
+                    <div class="hamburger mx-4">
+                        <div class="dropdown-container">
+                            <button class="drop-btn text-dark bg-white p-0">
+                                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-content"><?php
+                                                            if (!empty($website))
+                                                                echo '
+                            <a href="' . $website . '" target="_blank">
+                                <i class="fa fa-link" aria-hidden="true"></i> Website
+                            </a>
+                            ';
+
+                                                            if (!empty($facebook))
+                                                                echo '
+                            <a href="' . $facebook . '" target="_blank">
+                                <i class="fa fa-facebook-official" aria-hidden="true"></i> Facebook
+                            </a>
+                            ';
+
+                                                            if (!empty($twitter))
+                                                                echo '
+                            <a href="' . $twitter . '" target="_blank">
+                                <i class="fa fa-twitter-square" aria-hidden="true"></i> Twitter
+                            </a>
+                            ';
+
+                                                            if (!empty($instagram))
+                                                                echo '
+                            <a href="' . $instagram . '" target="_blank">
+                                <i class="fa fa-instagram" aria-hidden="true"></i> Instagram
+                            </a>
+                            ';
+
+                                                            if (!empty($youtube))
+                                                                echo '
+                            <a href="' . $youtube . '" target="_blank">
+                                <i class="fa fa-youtube-play" aria-hidden="true"></i> YouTube
+                            </a>
+                            ';
+
+                                                            if (!empty($linkedin))
+                                                                echo '
+                            <a href="' . $linkedin . '" target="_blank">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Linkedin
+                            </a>
+                            ';
+
+                                                            if (!empty($snapchat))
+                                                                echo '
+                            <a href="' . $snapchat . '" target="_blank">
+                                <i class="fa fa-snapchat-square" aria-hidden="true"></i> Snapchat
+                            </a>
+                            ';
+
+                                                            if (!empty($tiktok))
+                                                                echo '
+                            <a href="' . $tiktok . '" target="_blank">
+                                <i class="fa fa-external-link" aria-hidden="true"></i> TikTok
+                            </a>
+                            ';
+
+
+                                                            ?>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="notification mx-4">
+                        <div class="dropdown-container">
+                            <button class="drop-btn text-dark bg-white p-0">
+                                <i class="fa fa-bell-o fa-2x" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="#">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Subscribe
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-reply" aria-hidden="true"></i> Author’s replies
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-bell-slash" aria-hidden="true"></i> Turn off
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="watching ml-4 py-3 px-4 h1 gc-bg text-white">
+                        Watching
+                    </div>
+                </div>
+                <div class="h2 text-right">
+                    <a href="#" target="_blank">Option Available</a>
+                </div>
+            </div>
+        </div> <!-- row -->
+        <div class="row gc-bg text-white py-2 mt-2">
+            <div class="col-sm-6">
+                <div class="text-left h1">+ OPINIONS</div>
+            </div>
+            <div class="col-sm-6">
+                <div class="text-right h1">- OPINIONS</div>
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-sm-12 px-0 py-1">
+                <p><?= "get_the_content()" ?></p>
+            </div>
+        </div>
     </div>
 <?php
 }
