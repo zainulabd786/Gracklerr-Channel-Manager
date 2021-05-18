@@ -78,3 +78,7 @@
   color: red;
   font-size: 15px;
 }
+
+.dropdown-container button.drop-btn{
+    border: none;
+}
