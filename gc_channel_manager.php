@@ -25,7 +25,7 @@ function wp_enque_admin_styles_n_scripts()
 
 
     // Custom
-    wp_enqueue_style('gc_style_css', plugins_url('/admin/style.css', __FILE__));
+    wp_enqueue_style('gc_admin_style_css', plugins_url('/admin/style.css', __FILE__));
     wp_enqueue_script('gc_script_js', plugins_url('/script.js', __FILE__), array());
 
 
@@ -43,12 +43,12 @@ add_action('admin_enqueue_scripts', 'wp_enque_admin_styles_n_scripts');
 function wp_enque_styles_n_scripts()
 {
     global $post;
-    $pages_having_sc = having_shortcode("[gcklr_channels_list]");
+    $pages_having_sc = having_shortcode("[gc_render_channel_template]");
     if (in_array($post->ID, $pages_having_sc))
         wp_enqueue_style('bootstrap-css', "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css");
 
 
-    wp_enqueue_style('gc_style_css', plugins_url('/style.css', __FILE__));
+    wp_enqueue_style('gc_style_css', plugins_url('/styles.css', __FILE__));
 }
 add_action('wp_enqueue_scripts', 'wp_enque_styles_n_scripts');
 
