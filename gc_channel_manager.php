@@ -139,7 +139,11 @@ function gc_registration_form_submit()
                 "role" => "admin"
             ));
         }
-        $site_id = wpmu_create_blog(DOMAIN, PATH . sanitize_title_with_dashes($channel_name),  $channel_name, $created_user_id);
+        $options = array(
+            'template' => TEMPLATE,
+            'stylesheet' => STYLESHEET
+        );
+        $site_id = wpmu_create_blog(DOMAIN, PATH . sanitize_title_with_dashes($channel_name),  $channel_name, $created_user_id, $options);
     }
     foreach ($keys_to_remove_on_update as $key) {
         unset($_POST[$key]);

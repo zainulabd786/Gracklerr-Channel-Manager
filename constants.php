@@ -6,6 +6,8 @@ define("CATEGORY_IMAGE_KEY", "image");
 define("DEFAULT_PROFILE_IMAGE", 'https://gracklerr.com/wp-content/uploads/2021/04/Generic-Profile-Image.jpg');
 define("DOMAIN", $_SERVER['SERVER_NAME']);
 define("PATH", '/'.'wordpress'.'/');
+define("TEMPLATE", 'hello-elementor');
+define("STYLESHEET", 'hello-elementor-child');
 
 //Channel Options Keys
 define("FIRST_NAME_KEY", "first_name");
