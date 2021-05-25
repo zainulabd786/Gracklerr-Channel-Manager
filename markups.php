@@ -482,6 +482,7 @@ function gc_render_channel_markup()
                     <img src="https://gracklerr.com/wp-content/uploads/2021/03/Leonardo-DiCaprio.png" />
                     <div class="name h2">
                         <?= get_blog_option(get_current_blog_id(), CHANNEL_NAME_KEY) ?>
+                        <a href="<?= get_site_url(get_current_blog_id()) ?>/wp-admin/admin.php?page=gc_channel_options" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>
