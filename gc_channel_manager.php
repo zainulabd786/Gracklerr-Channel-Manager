@@ -26,7 +26,7 @@ function wp_enque_admin_styles_n_scripts()
 
     // Custom
     wp_enqueue_style('gc_admin_style_css', plugins_url('/admin/style.css', __FILE__));
-    wp_enqueue_script('gc_script_js', plugins_url('/script.js', __FILE__), array());
+    wp_enqueue_script('gc_admin_script_js', plugins_url('/admin/script.js', __FILE__), array());
 
 
 
@@ -44,15 +44,17 @@ function wp_enque_styles_n_scripts()
 {
     global $post;
     $pages_having_sc = having_shortcode("[gc_render_channel_template]");
-    if (in_array($post->ID, $pages_having_sc)){
+    if (in_array($post->ID, $pages_having_sc)) {
         wp_enqueue_style('bootstrap-css', "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css");
         wp_enqueue_style('gc_channel_style_css', plugins_url('/channel_styles.css', __FILE__));
+        wp_enqueue_script('gc_jquery', "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js", array());
+        wp_enqueue_script('gc_channel_script_js', plugins_url('/script.js', __FILE__), array("gc_jquery"));
     }
-        
+
 
     wp_enqueue_style('gc-font-awesome-css', 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
-    wp_enqueue_style('gc_style_css', plugins_url('/styles.css', __FILE__));
+    // wp_enqueue_style('gc_style_css', plugins_url('/styles.css', __FILE__));
 }
 add_action('wp_enqueue_scripts', 'wp_enque_styles_n_scripts');
 
@@ -228,3 +230,18 @@ function gc_render_channel_template()
     return gc_render_channel_markup();
 }
 add_shortcode("gc_render_channel_template", "gc_render_channel_template");
+
+function gc_update_channe_profile_pic()
+{
+    $file = $_FILES[PROFILE_PICTURE_KEY];
+    $site_id = !empty($_POST['gc_current_blog_id']) ? $_POST['gc_current_blog_id'] : "";
+    $attachment_id = gc_upload_attachment($file);
+    if (!get_blog_option($site_id, PROFILE_PICTURE_KEY)) {
+        add_blog_option($site_id, PROFILE_PICTURE_KEY, $attachment_id);
+    } else {
+        update_blog_option($site_id, PROFILE_PICTURE_KEY, $attachment_id);
+    }
+    wp_redirect(get_site_url());
+}
+add_action("admin_post_gc_update_channe_profile_pic", "gc_update_channe_profile_pic");
+add_action("admin_post_nopriv_gc_update_channe_profile_pic", "gc_update_channe_profile_pic");

@@ -32,3 +32,4 @@ define("SNAPCHAT_KEY", "snapchat");
 define("TIKTOK_KEY", "tiktok");
 define("DESCRIPTION_KEY", "description");
 define("SHORT_DESCRIPTION_KEY", "short_description");
+define("PROFILE_PICTURE_KEY", "profile_picture");

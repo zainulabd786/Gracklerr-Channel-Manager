@@ -10,6 +10,7 @@ function gc_get_channel_options_default_markup()
         <input type="hidden" name="redirect_url" value="<?= admin_url('admin.php?page=gc_channel_options') ?>">
         <input type="hidden" name="is_updating" value="true">
         <input type="hidden" name="gc_current_blog_id" value="<?= get_current_blog_id() ?>">
+        <input type="hidden" name="<?= PROFILE_PICTURE_KEY ?>" value="" /> <!-- Just to add profile pic ket to blog options -->
         <input type="hidden" name="<?= CHANNEL_NAME_KEY ?>" value="<?= get_blog_option(get_current_blog_id(), CHANNEL_NAME_KEY) ?>">
         <table class="form-table">
             <tbody>
@@ -464,6 +465,7 @@ function gc_render_channel_markup()
         get_blog_option(get_current_blog_id(), SNAPCHAT_KEY);
     $tiktok =
         get_blog_option(get_current_blog_id(), TIKTOK_KEY);
+    $profile_picture = wp_get_attachment_url(get_blog_option(get_current_blog_id(), PROFILE_PICTURE_KEY));
 ?>
     <div class="container">
         <!-- Banner Image -->
@@ -478,9 +480,26 @@ function gc_render_channel_markup()
         <div class="row">
             <div class="col-sm-5 position-relative">
                 <!-- Profile Image -->
-                <div class="profile_image position-absolute">
-                    <img src="https://gracklerr.com/wp-content/uploads/2021/03/Leonardo-DiCaprio.png" />
-                    <div class="name h2">
+                <div class="image-n-name-wrap position-absolute">
+                    <div id="profile_image" class="position-relative">
+                        <img width="200" src="<?= $profile_picture ? $profile_picture : DEFAULT_PROFILE_IMAGE ?>" />
+                        <?php
+                        if (is_user_logged_in()) { ?>
+                            <div class="edit position-absolute">
+                                <form id="gc_edit_profile_form" action="<?= admin_url('admin-post.php') ?>" method="post" enctype="multipart/form-data">
+
+                                    <input type="hidden" name="gc_current_blog_id" value="<?= get_current_blog_id() ?>">
+                                    <input type="hidden" name="action" value="gc_update_channe_profile_pic" />
+                                    <label for="gc_edit_profile_input"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</label>
+                                    <input type="file" name="<?= PROFILE_PICTURE_KEY ?>" id="gc_edit_profile_input" />
+                                </form>
+
+                            </div>
+                        <?php
+                        } ?>
+
+                    </div>
+                    <div class=" name h2">
                         <?= get_blog_option(get_current_blog_id(), CHANNEL_NAME_KEY) ?>
                         <a href="<?= get_site_url(get_current_blog_id()) ?>/wp-admin/admin.php?page=gc_channel_options" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     </div>

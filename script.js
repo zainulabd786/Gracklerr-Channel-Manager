@@ -1,28 +1,24 @@
 jQuery(document).ready(function ($) {
-  const { ajaxurl } = gc_script_params;
-
-  const categoryEditIcon = $(".gc_edit_category_icon");
-  const categoryDeleteIcon = $(".gc_delete_category_icon");
-  const categoryInput = $("#gc_category_input");
-  const oldCategoryInput = $("#gc_old_category_input");
-
-  categoryEditIcon.click((e) => {
-    const clickedCategoryName = e.target.getAttribute("data-category");
-    categoryInput.focus();
-    categoryInput.val(clickedCategoryName);
-    oldCategoryInput.val(clickedCategoryName);
-  });
-
-  categoryDeleteIcon.click((e) => {
-    const clickedCategoryName = e.target.getAttribute("data-category");
-    console.log("clickedCategoryName", clickedCategoryName);
-    $.post(
-      ajaxurl,
-      {
-        action: "gc_delete_category",
-        category: clickedCategoryName,
-      },
-      () => location.reload()
-    );
+  var _URL = window.URL || window.webkitURL;
+  const editProfileInput = $("#gc_edit_profile_input");
+  const editProfileForm = $("#gc_edit_profile_form");
+  editProfileInput.change(function () {
+    var file, img;
+    let validImage = false;
+    if ((file = this.files[0])) {
+      img = new Image();
+      var objectUrl = _URL.createObjectURL(file);
+      img.onload = function () {
+        if (this.width !== 748 && this.height !== 758) {
+          validImage = false;
+          editProfileInput.val(null);
+          alert("profile image should match 748x758 pixels");
+        } else {
+          validImage = true;
+          editProfileForm.submit();
+        }
+      };
+      img.src = objectUrl;
+    }
   });
 });
