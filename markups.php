@@ -466,13 +466,33 @@ function gc_render_channel_markup()
     $tiktok =
         get_blog_option(get_current_blog_id(), TIKTOK_KEY);
     $profile_picture = wp_get_attachment_url(get_blog_option(get_current_blog_id(), PROFILE_PICTURE_KEY));
+    $banner_image = wp_get_attachment_url(get_blog_option(get_current_blog_id(), BANNER_IMAGE_KEY));
 ?>
     <div class="container">
         <!-- Banner Image -->
         <div class="row">
             <div class="col-sm-12">
-                <div class="banner-image">
-                    <img src="https://gracklerr.com/wp-content/uploads/2021/05/Other.jpg" />
+                <div class="banner_image_wrap position-relative">
+                    <img src="<?= $banner_image ? $banner_image : DEFAULT_BANNER_IMAGE ?>" />
+                    <?php
+                    if (is_user_logged_in()) { ?>
+                        <div class="position-absolute btn_wrap">
+                            <form id="gc_edit_banner_form" action="<?= admin_url('admin-post.php') ?>" method="post" enctype="multipart/form-data">
+
+                                <input type="hidden" name="gc_current_blog_id" value="<?= get_current_blog_id() ?>">
+                                <input type="hidden" name="action" value="gc_update_channe_banner_pic" />
+                                <label for="gc_edit_banner_input">
+                                    <div class="btn btn-light">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        Edit Banner Image
+                                    </div>
+                                </label>
+                                <input type="file" name="<?= BANNER_IMAGE_KEY ?>" id="gc_edit_banner_input" />
+                            </form>
+                        </div>
+                    <?php
+                    } ?>
+
                 </div>
             </div>
         </div><!-- row -->
@@ -490,7 +510,14 @@ function gc_render_channel_markup()
 
                                     <input type="hidden" name="gc_current_blog_id" value="<?= get_current_blog_id() ?>">
                                     <input type="hidden" name="action" value="gc_update_channe_profile_pic" />
-                                    <label for="gc_edit_profile_input"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</label>
+                                    <label for="gc_edit_profile_input">
+                                        <div class="text-center mb-2">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                                        </div>
+                                        <div class="text-center">
+                                            <i class="fa fa-file-image-o" aria-hidden="true"></i> 748x758 pixels
+                                        </div>
+                                    </label>
                                     <input type="file" name="<?= PROFILE_PICTURE_KEY ?>" id="gc_edit_profile_input" />
                                 </form>
 
@@ -501,7 +528,7 @@ function gc_render_channel_markup()
                     </div>
                     <div class=" name h2">
                         <?= get_blog_option(get_current_blog_id(), CHANNEL_NAME_KEY) ?>
-                        <a href="<?= get_site_url(get_current_blog_id()) ?>/wp-admin/admin.php?page=gc_channel_options" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a href="<?= get_site_url(get_current_blog_id()) ?>/wp-admin/" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>

@@ -231,17 +231,29 @@ function gc_render_channel_template()
 }
 add_shortcode("gc_render_channel_template", "gc_render_channel_template");
 
-function gc_update_channe_profile_pic()
+function gc_update_channe_pics()
 {
-    $file = $_FILES[PROFILE_PICTURE_KEY];
+    $key = $_POST['action'] === "gc_update_channe_banner_pic" ? BANNER_IMAGE_KEY : PROFILE_PICTURE_KEY;
+    $file = $_FILES[$key];
     $site_id = !empty($_POST['gc_current_blog_id']) ? $_POST['gc_current_blog_id'] : "";
     $attachment_id = gc_upload_attachment($file);
-    if (!get_blog_option($site_id, PROFILE_PICTURE_KEY)) {
-        add_blog_option($site_id, PROFILE_PICTURE_KEY, $attachment_id);
+    if (!get_blog_option($site_id, $key)) {
+        add_blog_option($site_id, $key, $attachment_id);
     } else {
-        update_blog_option($site_id, PROFILE_PICTURE_KEY, $attachment_id);
+        update_blog_option($site_id, $key, $attachment_id);
     }
     wp_redirect(get_site_url());
 }
-add_action("admin_post_gc_update_channe_profile_pic", "gc_update_channe_profile_pic");
-add_action("admin_post_nopriv_gc_update_channe_profile_pic", "gc_update_channe_profile_pic");
+add_action("admin_post_gc_update_channe_profile_pic", "gc_update_channe_pics");
+add_action("admin_post_nopriv_gc_update_channe_profile_pic", "gc_update_channe_pics");
+
+add_action("admin_post_gc_update_channe_banner_pic", "gc_update_channe_pics");
+add_action("admin_post_nopriv_gc_update_channe_banner_pic", "gc_update_channe_pics");
+
+
+function admin_default_page()
+{
+    return home_url();
+}
+
+add_filter('login_redirect', 'admin_default_page');
