@@ -645,6 +645,17 @@ function gc_render_channel_markup()
             </div>
         </div> <!-- row -->
 
+        <div class="gc_post_editor">
+            <?php
+            if (is_user_logged_in()) { ?>
+                <textarea name="textarea" id="gc_post_editor"></textarea>
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary" id="gc_post_article_btn">Post</button>
+                </div>
+            <?php
+            } ?>
+        </div>
+
         <div class="row">
             <div class="col-sm-12 px-0 py-1">
                 <p><?= get_blog_option(get_current_blog_id(), SHORT_DESCRIPTION_KEY) ?></p>

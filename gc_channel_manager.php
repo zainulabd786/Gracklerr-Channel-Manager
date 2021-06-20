@@ -47,7 +47,10 @@ function wp_enque_styles_n_scripts()
     if (in_array($post->ID, $pages_having_sc)) {
         wp_enqueue_style('bootstrap-css', "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css");
         wp_enqueue_style('gc_channel_style_css', plugins_url('/channel_styles.css', __FILE__));
+        wp_enqueue_style('gc_suneditor_css', "https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css");
         wp_enqueue_script('gc_jquery', "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js", array());
+
+        wp_enqueue_script('gc_suneditor_js', "https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js", array());
         wp_enqueue_script('gc_channel_script_js', plugins_url('/script.js', __FILE__), array("gc_jquery"));
     }
 
