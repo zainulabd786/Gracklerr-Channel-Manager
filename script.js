@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+  const { ajaxurl } = gc_script_params;
   var _URL = window.URL || window.webkitURL;
   const editProfileInput = $("#gc_edit_profile_input");
   const editProfileForm = $("#gc_edit_profile_form");
@@ -27,7 +28,13 @@ jQuery(document).ready(function ($) {
   );
 
   $("#gc_post_article_btn").click(function(){
-    console.log(editor.getContents());
+    const content = editor.getContents();
+    $.post(ajaxurl, {
+      action: "gc_post_article_action",
+      content,
+    }, function(){
+      location.reload();
+    });
   });
 
   editProfileInput.change(function () {

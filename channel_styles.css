@@ -100,3 +100,9 @@ header {
 .dropdown-container button.drop-btn {
   border: none;
 }
+
+
+
+.comments-area {
+  display: none;
+}

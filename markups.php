@@ -649,7 +649,7 @@ function gc_render_channel_markup()
             <?php
             if (is_user_logged_in()) { ?>
                 <textarea name="textarea" id="gc_post_editor"></textarea>
-                <div class="text-right">
+                <div class="text-right mt-1">
                     <button type="button" class="btn btn-primary" id="gc_post_article_btn">Post</button>
                 </div>
             <?php
@@ -657,8 +657,22 @@ function gc_render_channel_markup()
         </div>
 
         <div class="row">
-            <div class="col-sm-12 px-0 py-1">
-                <p><?= get_blog_option(get_current_blog_id(), SHORT_DESCRIPTION_KEY) ?></p>
+            <div class="col-sm-12 px-0 py-1 gc_channel_posts">
+                <?php
+                $args = array(
+                    "post_type" => "post",
+                );
+                $query = new WP_Query($args);
+                if ($query->have_posts()) {
+                    while ($query->have_posts()) {
+                        $query->the_post(); ?>
+                        <article class="border mt-2 mb-2 p-2">
+                            <b><?= get_blog_option(get_current_blog_id(), CHANNEL_NAME_KEY) ?> </b>- <?= get_the_date("M-d") ?>
+                            <?= get_the_content() ?>
+                        </article>
+                <?php
+                    }
+                } ?>
             </div>
         </div>
     </div>

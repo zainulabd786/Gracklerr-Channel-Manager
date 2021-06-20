@@ -52,6 +52,13 @@ function wp_enque_styles_n_scripts()
 
         wp_enqueue_script('gc_suneditor_js', "https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js", array());
         wp_enqueue_script('gc_channel_script_js', plugins_url('/script.js', __FILE__), array("gc_jquery"));
+        wp_localize_script(
+            'gc_channel_script_js',
+            'gc_script_params',
+            array(
+                'ajaxurl' => admin_url('admin-ajax.php')
+            )
+        );
     }
 
 
@@ -252,6 +259,18 @@ add_action("admin_post_nopriv_gc_update_channe_profile_pic", "gc_update_channe_p
 
 add_action("admin_post_gc_update_channe_banner_pic", "gc_update_channe_pics");
 add_action("admin_post_nopriv_gc_update_channe_banner_pic", "gc_update_channe_pics");
+
+function gc_post_article()
+{
+    $content = $_POST['content'];
+    wp_insert_post(array(
+        "post_title" => "Channel Post",
+        "post_content" => $content,
+        "post_status" => "publish"
+    ));
+}
+add_action('wp_ajax_gc_post_article_action', 'gc_post_article');
+add_action('wp_ajax_nopriv_gc_post_article_action', 'gc_post_article');
 
 
 function admin_default_page()
